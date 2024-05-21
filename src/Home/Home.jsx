@@ -594,7 +594,15 @@ function Home({ Data }) {
             </Box>
           ) : (
             <Scrollbar>
-              <TableContainer sx={{ maxHeight: 380, mt: 2 }}>
+              <Typography
+                variant="h6"
+                fontWeight={700}
+                textAlign={"center"}
+                mt={3}
+              >
+                Shared File Access
+              </Typography>
+              <TableContainer sx={{ maxHeight: 380 }}>
                 <Table
                   sx={{
                     bgcolor: "white",
