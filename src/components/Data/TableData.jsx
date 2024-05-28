@@ -1,4 +1,5 @@
 import {
+  IconButton,
   Stack,
   TableBody,
   TableCell,
@@ -15,8 +16,9 @@ import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
 import EventNoteOutlinedIcon from "@mui/icons-material/EventNoteOutlined";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import share from "../assets/share.png";
+
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
+import UploadFile from "./UploadFile";
 function TableData({
   handleDelete,
   value,
@@ -24,6 +26,7 @@ function TableData({
   parentKey,
   handleDownload,
   handleShare,
+  handleFileChange,
 }) {
   console.log({ value });
   const getFileIcon = (type) => {
@@ -48,62 +51,57 @@ function TableData({
     }
   };
 
-  return (
+  return value.map((file, fileIndex) => (
     <TableBody key={index}>
-      {value.length > 0 ? (
-        value.map((file, fileIndex) => (
-          <TableRow>
-            <TableCell sx={{ p: 1, color: "#393939" }}>
-              <Stack direction={"row"} alignItems={"center"} sx={{ pl: 2 }}>
-                {getFileIcon(file.file.name.split(".").slice(-1)[0])}
-                <Typography sx={{ pl: 2 }}>{file.file.name}</Typography>
-                {/* <Typography sx={{ width: 270 }}>
+      <TableRow>
+        <TableCell sx={{ p: 1, color: "#393939" }}>
+          <Stack direction={"row"} alignItems={"center"} sx={{ pl: 2 }}>
+            {getFileIcon(file.file.name.split(".").slice(-1)[0])}
+            <Typography sx={{ pl: 2 }}>{file.file.name}</Typography>
+            {/* <Typography sx={{ width: 270 }}>
               {value.FilesInfo.map((e) => e.name)}
             </Typography> */}
-              </Stack>
-            </TableCell>
-
-            {/* <TableCell sx={{ p: 1 }}>{value.timestamp}</TableCell> */}
-            <TableCell>{new Date().toString().slice(4, 21)}</TableCell>
-            <TableCell>Srinivas</TableCell>
-            <TableCell sx={{ p: 1 }}>
-              <Stack direction={"row"} gap={2}>
-                <DownloadOutlinedIcon
-                  sx={{
-                    fontSize: "20px",
-
-                    cursor: "pointer",
-                  }}
-                  onClick={() => handleDownload(file.file)}
-                />
-                <ShareOutlinedIcon
-                  sx={{
-                    fontSize: "20px",
-
-                    cursor: "pointer",
-                  }}
-                  onClick={() => handleShare(file)}
-                />
-                <DeleteOutlineOutlinedIcon
-                  sx={{
-                    fontSize: "20px",
-
-                    color: "red",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => handleDelete(fileIndex, parentKey)}
-                />
-              </Stack>
-            </TableCell>
-          </TableRow>
-        ))
-      ) : (
-        <TableCell colSpan={6} sx={{ textAlign: "center" }}>
-          No Files Found
+          </Stack>
         </TableCell>
-      )}
+
+        {/* <TableCell sx={{ p: 1 }}>{value.timestamp}</TableCell> */}
+        <TableCell>{new Date().toString().slice(4, 21)}</TableCell>
+        <TableCell>Srinivas</TableCell>
+        <TableCell sx={{ p: 1 }}>
+          <Stack direction={"row"}>
+            <IconButton>
+              <DownloadOutlinedIcon
+                sx={{
+                  fontSize: "20px",
+                  cursor: "pointer",
+                }}
+                onClick={() => handleDownload(file.file)}
+              />
+            </IconButton>
+            <IconButton>
+              <ShareOutlinedIcon
+                sx={{
+                  fontSize: "20px",
+                  cursor: "pointer",
+                }}
+                onClick={() => handleShare(file)}
+              />
+            </IconButton>
+            <IconButton>
+              <DeleteOutlineOutlinedIcon
+                sx={{
+                  fontSize: "20px",
+                  color: "red",
+                  cursor: "pointer",
+                }}
+                onClick={() => handleDelete(fileIndex, parentKey)}
+              />
+            </IconButton>
+          </Stack>
+        </TableCell>
+      </TableRow>
     </TableBody>
-  );
+  ));
 }
 
 export default TableData;

@@ -6,7 +6,7 @@ function HomePage() {
     <Stack
       justifyContent={"center"}
       alignItems={"center"}
-      sx={{ width: "100%", backgroundColor: "#FAF9F9" }}
+      sx={{ width: "90%", backgroundColor: "rgb(238, 242, 246)" }}
     >
       <Typography variant="h4" component="h1" gutterBottom>
         Welcome to the Dashboard

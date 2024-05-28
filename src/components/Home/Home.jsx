@@ -17,6 +17,7 @@ import {
   Grid,
   IconButton,
   InputLabel,
+  Menu,
   MenuItem,
   Select,
   Stack,
@@ -28,6 +29,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import UploadFileOutlinedIcon from "@mui/icons-material/UploadFileOutlined";
 import { Link, useLocation, useParams } from "react-router-dom";
@@ -56,6 +58,15 @@ function Home({ Data }) {
       { id: 3002, name: "Bob Brown" },
     ],
   };
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const location = useLocation();
   const { item1, level1, tab1, year, itemOne } = useParams();
   const pathname = location.pathname;
@@ -69,6 +80,7 @@ function Home({ Data }) {
   const [add, setAdd] = useState(false);
   const [checkedEmployees, setCheckedEmployees] = useState([]);
   const [selectAllChecked, setSelectAllChecked] = useState(false);
+
   const handleDrawerOpen = () => setDrawerOpen(true);
   const handleDrawerClose = () => setDrawerOpen(false);
   const handleChange = (event, newValue) => {
@@ -121,63 +133,7 @@ function Home({ Data }) {
     setDrawerOpen(true);
     setSelectedFileDetails(fileDetails);
   };
-  // console.log("selectedFileDetails", selectedFileDetails);
-  // const handleCheckboxChange = (
-  //   employeeId,
-  //   employeeName,
-  //   employeeDepartment,
-  //   fileName
-  // ) => {
-  //   const sharedDate = new Date();
 
-  //   console.log(`handlechange employeeId`, employeeId);
-  //   console.log(`handlechange employeeName`, employeeName);
-  //   console.log(`handlechange employeeDepartment`, employeeDepartment);
-  //   console.log(`handlechange fileName`, fileName);
-  //   //
-  //   const updateSharedEmployees = (sharedEmployees) => {
-  //     console.log(`handle Checkbox change = array ==>`, checkedEmployees);
-  //     if (checkedEmployees.includes(employeeId)) {
-  //       console.log(
-  //         "sharedemployees",
-  //         sharedEmployees.filter(
-  //           (employee) => employee.employeeId !== employeeId
-  //         )
-  //       );
-  //       return sharedEmployees.filter(
-  //         (employee) => employee.employeeId !== employeeId
-  //       );
-  //     } else {
-  //       console.log("New employee:", [
-  //         ...sharedEmployees,
-  //         { employeeId, employeeName, employeeDepartment, sharedDate },
-  //       ]);
-  //       return [
-  //         ...sharedEmployees,
-  //         { employeeId, employeeName, employeeDepartment, sharedDate },
-  //       ];
-  //     }
-  //   };
-
-  //   //
-
-  //   console.log(`Previous dbstorage inside handle change`, dbStorage);
-  //   const updatedDbStorage = dbStorage[pathname].map((item) => {
-  //     console.log(`db storage items`, item);
-  //     if (item.file.name === fileName) {
-  //       return { ...item, shared: updateSharedEmployees(item.shared) };
-  //     }
-  //     return item;
-  //   });
-
-  //   setCheckedEmployees((prev) =>
-  //     prev.includes(employeeId)
-  //       ? prev.filter((id) => id !== employeeId)
-  //       : [...prev, employeeId]
-  //   );
-  //   setDbStorage((prev) => ({ ...prev, [pathname]: updatedDbStorage }));
-  //   console.log(`updated dbstorage inside handle change`, updatedDbStorage);
-  // };
   const [tempDbStorage, setTempDbStorage] = useState(dbStorage);
 
   const handleCheckboxChange = (
@@ -202,11 +158,19 @@ function Home({ Data }) {
       return item;
     });
 
-    setCheckedEmployees((prev) =>
-      prev.includes(employeeId)
+    setCheckedEmployees((prev) => {
+      const newCheckedEmployees = prev.includes(employeeId)
         ? prev.filter((id) => id !== employeeId)
-        : [...prev, employeeId]
-    );
+        : [...prev, employeeId];
+
+      // Check if "Select All" should be unchecked
+      const isAllChecked =
+        newCheckedEmployees.length === employees[department].length;
+      setSelectAllChecked(isAllChecked);
+
+      return newCheckedEmployees;
+    });
+
     setTempDbStorage((prev) => {
       return { [pathname]: updatedTempDbStorage };
     });
@@ -285,73 +249,6 @@ function Home({ Data }) {
     setTempDbStorage(dbStorage);
   }, [dbStorage]);
 
-  // const handleShareClick = () => {
-  //   console.log("Shared employees:", checkedEmployees);
-  //   setCheckedEmployees([]);
-  //   setAdd(false);
-  //   setDepartment("");
-  //   toast.success("File Shared Successfully");
-  // };
-  const [selectAll, setSelectAll] = useState([]);
-  // console.log("dbStorage", dbStorage);
-
-  // const handleSelectAll = (event, fileName) => {
-  //   const isChecked = event.target.checked;
-  //   const selectedEmployeeIds = [...checkedEmployees]; // Copy the previously selected employee IDs
-  //   // console.log(checkedEmployees);
-  //   // Extract the IDs and names of the employees in the current department
-  //   const currentEmployeeIds =
-  //     employees[department]?.map((employee) => employee.id) || [];
-  //   const currentEmployeeNames =
-  //     employees[department]?.map((employee) => employee.name) || [];
-
-  //   if (isChecked) {
-  //     // Add the IDs from the current department to the selectedEmployeeIds array
-  //     selectedEmployeeIds.push(...currentEmployeeIds);
-  //     // setCheckedEmployees()
-
-  //     // console.log(`selectedEmployeeIds`, selectedEmployeeIds);
-  //     // // setCheckedEmployees((prev) =>
-  //     // //   prev.includes(employeeId)
-  //     // //     ? prev.filter((id) => id !== employeeId)
-  //     // //     : [...prev, employeeId]
-  //     // // );
-  //     // selectedEmployeeIds.forEach((employeeId) => {
-  //     //   // console.log(`are bachha prev`, dbStorage);
-  //     //   console.log("employeeId", employeeId);
-  //     //   handleCheckboxChange(
-  //     //     employeeId,
-  //     //     currentEmployeeNames[selectedEmployeeIds.indexOf(employeeId)],
-  //     //     department,
-  //     //     fileName
-  //     //   );
-  //     //   // console.log(`are bachha next`, dbStorage);
-  //     // });
-  //     handleCheckboxChange(
-  //       1001,
-  //       currentEmployeeNames[selectedEmployeeIds.indexOf(1001)],
-  //       department,
-  //       fileName
-  //     );
-  //     handleCheckboxChange(
-  //       1002,
-  //       currentEmployeeNames[selectedEmployeeIds.indexOf(1002)],
-  //       department,
-  //       fileName
-  //     );
-  //     // console.log(`are bachha next`, dbStorage);
-  //   } else {
-  //     // Deselect all employees
-  //     selectedEmployeeIds.length = 0;
-  //   }
-  //   console.log("selectedemployeeids", selectedEmployeeIds);
-  //   // Update the checked employees in the state
-  //   setCheckedEmployees(selectedEmployeeIds);
-  //   setSelectAllChecked(isChecked);
-
-  //   // Call handleCheckboxChange for each selected employee
-  // };
-
   useEffect(() => {
     setSelectAllChecked(false);
   }, [department]);
@@ -366,10 +263,8 @@ function Home({ Data }) {
 
   // console.log(dbStorage);
   return (
-    <Box
-      sx={{ backgroundColor: "rgb(244, 243, 245)", pb: "40px", width: "78%" }}
-    >
-      <Container sx={{ height: "60px", padding: "10px", mb: 1 }}>
+    <Box sx={{ backgroundColor: "rgb(238, 242, 246)", width: "85%" }}>
+      <Container sx={{ height: "60px", padding: "10px", mb: 2 }}>
         <Stack
           width={"100%"}
           direction={"row"}
@@ -377,26 +272,68 @@ function Home({ Data }) {
         >
           <Box sx={{ pt: 1, pl: 2 }}>
             <Breadcrumbs maxItems={2} aria-label="breadcrumb">
-              <Typography>{item1}</Typography>
-              <Typography>{level1}</Typography>
-              <Typography>{year}</Typography>
-              <Typography color="text.primary">
+              <Typography sx={{ fontSize: 14 }}>{item1}</Typography>
+              <Typography sx={{ fontSize: 14 }}>{level1}</Typography>
+
+              <Typography
+                color="text.primary"
+                fontWeight={600}
+                sx={{
+                  fontSize: 14,
+                  position: "relative",
+                  overflow: "hidden",
+                  transition: "color 0.5s linear", // Transition for text color
+                  "&::before": {
+                    content: "''",
+                    position: "absolute",
+                    width: "100%",
+                    height: "2px",
+                    bottom: 0,
+                    left: 0,
+                    backgroundColor: "currentColor",
+                    transform: "translateX(-100%)",
+                    transition:
+                      "transform 0.1s linear, background-color 0.1s linear", // Transition for underline
+                  },
+                  "&:hover": {
+                    color: "rgb(254, 84, 41)", // Change text color on hover
+                  },
+                  "&:hover::before": {
+                    transform: "translateX(0%)",
+                    backgroundColor: "rgb(254, 84, 41)", // Change underline color on hover
+                  },
+                }}
+              >
                 {location.pathname.includes("%20.") ? tab1 : itemOne}
               </Typography>
             </Breadcrumbs>
           </Box>
           <Box
             display={"flex"}
-            width={"250px"}
+            // width={"250px"}
             justifyContent={"space-evenly"}
             alignItems={"center"}
-            sx={{ height: 40, mr: 4 }}
+            sx={{ height: 40, mr: 1 }}
+            gap={2}
           >
             <FormControl>
               <Select
                 defaultValue={"2023-2024"}
+                renderValue={(selected) => (
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    sx={{
+                      "&.MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.MuiSvgIcon-root":
+                        { fontSize: 16 },
+                    }}
+                  >
+                    <CalendarTodayIcon sx={{ marginRight: 1, width: "14px" }} />
+                    {selected}
+                  </Box>
+                )}
                 sx={{
-                  borderRadius: 0,
+                  borderRadius: 2,
                   fontSize: "14px",
                   minWidth: 150,
                   color: "black",
@@ -429,28 +366,54 @@ function Home({ Data }) {
                 ))}
               </Select>
             </FormControl>
-            <Stack direction={"row"} justifyContent={"end"} sx={{ mr: -4 }}>
-              <label htmlFor="file-upload">
-                <Button
-                  component="span"
-                  sx={{
-                    backgroundColor: "#816eff",
-                    ":hover": { backgroundColor: "#6758cc" },
-                    color: "white",
-                  }}
-                >
-                  <UploadFileOutlinedIcon />
-                  UPLOAD
-                </Button>
-              </label>
-              <input
-                type="file"
-                multiple
-                id="file-upload"
-                style={{ display: "none" }}
-                onChange={handleFileChange}
+
+            <label htmlFor="file-upload">
+              <Button
+                component="span"
+                sx={{
+                  backgroundColor: "rgb(255, 84, 41)",
+                  ":hover": { backgroundColor: "rgb(255, 129, 31,0.5 )" },
+                  color: "white",
+                }}
+              >
+                <UploadFileOutlinedIcon sx={{ fontSize: 20, mr: 1 }} />
+                UPLOAD
+              </Button>
+            </label>
+            <input
+              type="file"
+              multiple
+              id="file-upload"
+              style={{ display: "none" }}
+              onChange={handleFileChange}
+            />
+
+            <IconButton
+              onClick={handleClick}
+              sx={{ ":hover": { bgcolor: "transparent" } }}
+            >
+              <Avatar
+                alt="Remy Sharp"
+                src="https://img.freepik.com/premium-photo/bearded-man-illustration_665280-67047.jpg"
+                sx={{
+                  ":hover": { backgroundColor: "#E1DDFF,0.5" },
+                  p: 0,
+                }}
               />
-            </Stack>
+            </IconButton>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}
+            >
+              <MenuItem onClick={handleClose}>Profile</MenuItem>
+              <MenuItem onClick={handleClose}>My account</MenuItem>
+              <MenuItem onClick={handleClose}>Logout</MenuItem>
+            </Menu>
           </Box>
         </Stack>
       </Container>
@@ -461,6 +424,7 @@ function Home({ Data }) {
         handleDelete={handleDelete}
         handleDownload={handleDownload}
         handleShare={handleShare}
+        handleFileChange={handleFileChange}
       />
       <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerClose}>
         <Box

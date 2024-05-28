@@ -1,7 +1,7 @@
 export const Data = {
   Development: {
     "Front-End": {
-      Planning: ["Project-1", "Project-2", "Project-3"],
+      Planning: ["Davose", "Aapmor-360", "Nexus-360"],
       Designing: ["Project-1", "Project-2", "Project-3"],
       Developing: ["Project-1", "Project-2", "Project-3"],
     },
