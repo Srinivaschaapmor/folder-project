@@ -28,9 +28,7 @@ function TableData({
   handleShare,
   handleFileChange,
 }) {
-  console.log({ value });
   const getFileIcon = (type) => {
-    // console.log(type);
     switch (type) {
       case "pdf":
         return <PictureAsPdfOutlinedIcon sx={{ fontSize: "20px" }} />;

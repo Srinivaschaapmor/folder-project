@@ -42,22 +42,8 @@ function ComponentData({
 }) {
   const location = useLocation();
   const isSelected = (path) => location.pathname.includes(path);
-  console.log(Object.keys(dbStorage).includes(location.pathname));
-  console.log(dbStorage[location.pathname]?.length || 0);
-  console.log(dbStorage, "db");
-  // console.log(location);
+
   const [value, setValue] = useState(0);
-  const [selected, setSelected] = useState(0);
-  // const [dbStorage, setDbStorage] = useState({});
-
-  const [files, setFiles] = useState([]);
-
-  // const handleDelete = (index, key) => {
-  //   // console.log({ index, key });
-  //   let tempArray = dbStorage[key];
-  //   tempArray.splice(index, 1);
-  //   setDbStorage({ ...dbStorage, [key]: tempArray });
-  // };
 
   const { item1, level1, tab1, year, itemOne } = useParams();
 
@@ -115,7 +101,7 @@ function ComponentData({
                         textUnderlineOffset: "18px",
                         fontWeight: isSelected(e2) ? "700" : "normal",
                         color: isSelected(e2) ? "rgb(254, 84, 41)" : "black",
-                        transition: "color 0.5s linear",
+                        transition: "color 0.1s linear",
                         "&::before": {
                           content: '""',
                           position: "absolute",
@@ -133,10 +119,10 @@ function ComponentData({
                         "&:hover": !isSelected(e2) && {
                           color: "rgb(254, 84, 41)",
                         },
-                        "&:hover::before": !isSelected(e2) && {
-                          transform: "translateX(0%)",
-                          backgroundColor: "rgb(254, 84, 41)",
-                        },
+                        // "&:hover::before": !isSelected(e2) && {
+                        //   transform: "translateX(0%)",
+                        //   backgroundColor: "rgb(254, 84, 41)",
+                        // },
                       }}
                     />
                   </Link>
@@ -192,10 +178,10 @@ function ComponentData({
                         "&:hover": !isSelected(e) && {
                           color: "rgb(254, 84, 41)",
                         },
-                        "&:hover::before": !isSelected(e) && {
-                          transform: "translateX(0%)",
-                          backgroundColor: "rgb(254, 84, 41)",
-                        },
+                        // "&:hover::before": !isSelected(e) && {
+                        //   transform: "translateX(0%)",
+                        //   backgroundColor: "rgb(254, 84, 41)",
+                        // },
                       }}
                     />
                   </Link>

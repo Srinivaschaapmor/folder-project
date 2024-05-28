@@ -140,11 +140,15 @@ function Home({ Data }) {
     employeeId,
     employeeName,
     employeeDepartment,
-    fileName
+    fileName,
+    isChecked
   ) => {
     const sharedDate = new Date();
 
     const updateSharedEmployees = (sharedEmployees) => {
+      if (!isChecked && sharedEmployees.length > 0) {
+        return sharedEmployees.filter((e) => e.employeeId !== employeeId);
+      }
       return [
         ...sharedEmployees,
         { employeeId, employeeName, employeeDepartment, sharedDate },
@@ -232,6 +236,7 @@ function Home({ Data }) {
     }
 
     setCheckedEmployees(selectedEmployeeIds);
+
     setTempDbStorage({ [pathname]: updatedTempDbStorage });
     setSelectAllChecked(isChecked);
   };
@@ -252,16 +257,12 @@ function Home({ Data }) {
   useEffect(() => {
     setSelectAllChecked(false);
   }, [department]);
-  // console.log(checkedEmployees);
+
   const handleCancel = () => {
     setAdd(false);
     setDepartment("");
   };
-  useEffect(() => {
-    // setSelectedFileDetails();
-  }, [dbStorage]);
 
-  // console.log(dbStorage);
   return (
     <Box sx={{ backgroundColor: "rgb(238, 242, 246)", width: "85%" }}>
       <Container sx={{ height: "60px", padding: "10px", mb: 2 }}>
@@ -524,14 +525,15 @@ function Home({ Data }) {
                             <FormControlLabel
                               control={
                                 <Checkbox
-                                  onChange={() =>
+                                  onChange={(e) => {
                                     handleCheckboxChange(
                                       employee.id,
                                       employee.name,
                                       department,
-                                      selectedFileDetails.file.name
-                                    )
-                                  }
+                                      selectedFileDetails.file.name,
+                                      e.target.checked
+                                    );
+                                  }}
                                   checked={checkedEmployees.includes(
                                     employee.id
                                   )}
