@@ -1,7 +1,7 @@
 import { Box, IconButton, Stack, Typography } from "@mui/material";
 import React from "react";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
-
+// click to upload button in the data pannel
 function UploadFile({ handleFileChange }) {
   return (
     <Box height={150} margin={"auto"} width={400} mt={10}>

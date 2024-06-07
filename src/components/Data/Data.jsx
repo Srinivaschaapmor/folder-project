@@ -31,6 +31,7 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import DesignServicesIcon from "@mui/icons-material/DesignServices";
 import CodeIcon from "@mui/icons-material/Code";
 import UploadFile from "./UploadFile";
+// Top Toolbar, Side menubar and Table of the content pannel
 function ComponentData({
   Data,
   dbStorage,
@@ -46,10 +47,11 @@ function ComponentData({
   const [value, setValue] = useState(0);
 
   const { item1, level1, tab1, year, itemOne } = useParams();
-
+  //Handle tab change for top toolbar
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  //Icons for top toolbar
   const iconItems = {
     PLANNING: <AssignmentIcon sx={{ fontSize: 18 }} />,
 
@@ -58,6 +60,7 @@ function ComponentData({
   };
   return (
     <Box bgcolor={"white"} mx={5} borderRadius={3}>
+      {/*Top Tool bar  */}
       <Stack
         direction={"row"}
         justifyContent={"space-between"}
@@ -189,21 +192,16 @@ function ComponentData({
               ))}
         </Stack>
       </Stack>
-
+      {/* Bottom Box under the top toolbar */}
       <Box
-        // width={"100%"}
         sx={{
-          // bgcolor: "white",
-          // borderRadius: 3,
-          // m: 2,
           minHeight: "75vh",
-          // mx: 5,
           display: "flex",
           overflowY: "auto",
           borderTop: "1px solid rgb(203, 213, 225)",
         }}
       >
-        {/* Menu items in Box */}
+        {/* Menu items */}
         <Box
           sx={{
             position: "sticky",

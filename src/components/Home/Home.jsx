@@ -91,7 +91,8 @@ function Home({ Data }) {
     setDepartment(event.target.value);
     setAdd(true);
   };
-  // dbStorage - handle
+
+  // uploading the file UPLOAD BUTTON
   const handleFileChange = (e) => {
     const uploadedFiles = Array.from(e.target.files);
 
@@ -112,6 +113,7 @@ function Home({ Data }) {
       });
     }
   };
+  // Download the file
   const handleDownload = (file) => {
     const downloadUrl = URL.createObjectURL(file);
     const link = document.createElement("a");
@@ -122,13 +124,15 @@ function Home({ Data }) {
     document.body.removeChild(link);
     toast.success("File Downloaded Successfully");
   };
+
+  //Delete the file
   const handleDelete = (index, key) => {
     let tempArray = dbStorage[key];
     tempArray.splice(index, 1);
     setDbStorage({ ...dbStorage, [key]: tempArray });
     toast.success("File Deleted Successfully");
   };
-
+  // Opening the side drawer
   const handleShare = (fileDetails) => {
     setDrawerOpen(true);
     setSelectedFileDetails(fileDetails);
@@ -136,6 +140,7 @@ function Home({ Data }) {
 
   const [tempDbStorage, setTempDbStorage] = useState(dbStorage);
 
+  //Handleing checkboxes other than select all
   const handleCheckboxChange = (
     employeeId,
     employeeName,
@@ -179,7 +184,7 @@ function Home({ Data }) {
       return { [pathname]: updatedTempDbStorage };
     });
   };
-
+  // Select all checkboxes
   const handleSelectAll = (event, fileName) => {
     const isChecked = event.target.checked;
     let selectedEmployeeIds = [...checkedEmployees];
@@ -241,6 +246,7 @@ function Home({ Data }) {
     setSelectAllChecked(isChecked);
   };
 
+  // Share button in side drawer
   const handleShareClick = () => {
     setDbStorage(tempDbStorage);
     setCheckedEmployees([]);
@@ -257,7 +263,7 @@ function Home({ Data }) {
   useEffect(() => {
     setSelectAllChecked(false);
   }, [department]);
-
+  // Cancel button inside side drawer
   const handleCancel = () => {
     setAdd(false);
     setDepartment("");
@@ -265,12 +271,14 @@ function Home({ Data }) {
 
   return (
     <Box sx={{ backgroundColor: "rgb(238, 242, 246)", width: "85%" }}>
+      {/* Header Start */}
       <Container sx={{ height: "60px", padding: "10px", mb: 2 }}>
         <Stack
           width={"100%"}
           direction={"row"}
           justifyContent={"space-between"}
         >
+          {/* breadcrumbs */}
           <Box sx={{ pt: 1, pl: 2 }}>
             <Breadcrumbs maxItems={2} aria-label="breadcrumb">
               <Typography sx={{ fontSize: 14 }}>{item1}</Typography>
@@ -317,6 +325,7 @@ function Home({ Data }) {
             sx={{ height: 40, mr: 1 }}
             gap={2}
           >
+            {/* Calender select */}
             <FormControl>
               <Select
                 defaultValue={"2023-2024"}
@@ -367,7 +376,7 @@ function Home({ Data }) {
                 ))}
               </Select>
             </FormControl>
-
+            {/* Upload button */}
             <label htmlFor="file-upload">
               <Button
                 component="span"
@@ -388,7 +397,7 @@ function Home({ Data }) {
               style={{ display: "none" }}
               onChange={handleFileChange}
             />
-
+            {/* Avatar */}
             <IconButton
               onClick={handleClick}
               sx={{ ":hover": { bgcolor: "transparent" } }}
@@ -418,6 +427,8 @@ function Home({ Data }) {
           </Box>
         </Stack>
       </Container>
+      {/* Header end */}
+
       <ComponentData
         Data={Data}
         dbStorage={dbStorage}
@@ -427,6 +438,8 @@ function Home({ Data }) {
         handleShare={handleShare}
         handleFileChange={handleFileChange}
       />
+
+      {/* side Drawer */}
       <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerClose}>
         <Box
           width={500}

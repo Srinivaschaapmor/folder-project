@@ -65,6 +65,7 @@ function LandingPage({ Json, selectedTab, setSelectedTab, Data, DataChange }) {
             },
           }}
         >
+          {/* Accordians menu items */}
           {Object.keys(Data).map((e, index) => (
             <Box key={index}>
               <Accordion
@@ -167,6 +168,7 @@ function LandingPage({ Json, selectedTab, setSelectedTab, Data, DataChange }) {
               </Accordion>
             </Box>
           ))}
+          {/* last two Buttons */}
           {Object.keys(DataChange).map((e, ukey) => (
             <Link
               key={ukey}

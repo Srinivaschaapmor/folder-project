@@ -9,6 +9,7 @@ import SharedFiles from "./components/SharedFiles/SharedFiles";
 import Login from "./components/Login/Login";
 
 const AppRouter = () => {
+  //State managing for seleted tab
   const [selectedTab, setSelectedTab] = useState("");
 
   return (
@@ -31,6 +32,7 @@ const MainRouter = ({ selectedTab, setSelectedTab }) => {
 
   return (
     <Stack direction={"row"} sx={{ minHeight: "100vh" }}>
+      {/* side bar */}
       <LandingPage
         Data={Data}
         DataChange={DataChange}
@@ -42,6 +44,7 @@ const MainRouter = ({ selectedTab, setSelectedTab }) => {
         <Route
           path="/:item1/:level1/:year/:tab1/:itemOne"
           element={
+            // All components belong to file upload
             <Home
               selectedTab={selectedTab}
               setSelectedTab={setSelectedTab}
@@ -49,7 +52,7 @@ const MainRouter = ({ selectedTab, setSelectedTab }) => {
             />
           }
         />
-        <Route path="/shared-files" element={<SharedFiles />} />
+        {/* <Route path="/shared-files" element={<SharedFiles />} /> */}
         <Route path="*" element={<p>Invalid Path</p>} />
       </Routes>
     </Stack>
